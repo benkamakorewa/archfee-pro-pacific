@@ -90,11 +90,10 @@ const App: React.FC = () => {
     if (showMyEstimates) return <MyEstimatesScreen onLoadEstimate={(estData) => {
       setData(estData);
       setShowMyEstimates(false);
-      // Assuming step 4 is financial dashboard or similar, where they can see the data.
-      // Or step 5 (SecureReport) if they want to generate report. 
-      // Let's go to step 4 (Financial Dashboard) or 1 (Profile) to review.
-      // Let's go to step 1 to review inputs.
-      setStep(1);
+      // If the estimate is already paid, we should probably allow them to view the report directly?
+      // For now, let's load it back into state. If they go to step 5, they will see "Paid" state if we implement it.
+      // Actually, we need to make sure `isPaid` is preserved in `data`.
+      setStep(5); // Go to Secure Report screen to see status or regenerate
     }} />;
 
     if (isAdminView) {

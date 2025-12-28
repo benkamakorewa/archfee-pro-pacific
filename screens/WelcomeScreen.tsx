@@ -17,6 +17,8 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   isSyncing,
   regionData
 }) => {
+  const howItWorksRef = React.useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -25,12 +27,23 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     }
   }, []);
 
+  const scrollToHowItWorks = () => {
+    howItWorksRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   const countries = Object.values(CountryKey);
   const region = regionData;
 
+  const steps = [
+    { icon: 'tune', title: '1. Configure', desc: 'Define project category, density, and scale.' },
+    { icon: 'public', title: '2. Contextualize', desc: 'Apply local market factors and quality standards.' },
+    { icon: 'cyclone', title: '3. Resilience', desc: 'Integrate critical cyclone & climate upgrades.' },
+    { icon: 'payments', title: '4. Feasibility', desc: 'Generate bank-ready estimates & fee proposals.' }
+  ];
+
   return (
     <div className="flex flex-col animate-in fade-in duration-700">
-      <div className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col lg:flex-row gap-16 items-center">
+      <div className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col lg:flex-row gap-16 items-center min-h-[90vh]">
         <div className="lg:w-1/2 flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <div className="inline-flex items-center gap-2 bg-[#13a4ec]/10 text-[#13a4ec] w-fit px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
@@ -84,6 +97,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
               ) : 'Start New Estimate'}
             </button>
             <button
+              onClick={scrollToHowItWorks}
               className="h-16 px-10 border-2 border-gray-100 bg-white hover:bg-gray-50 text-[#111618] font-black rounded-2xl transition-all"
             >
               How it works
@@ -117,6 +131,28 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
                 <div className="text-[8px] text-white/40 font-bold uppercase tracking-widest">Ref: {Object.keys(region.locations)[0]} Market Data</div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div ref={howItWorksRef} className="bg-[#111618] text-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20 space-y-4">
+            <p className="text-[#13a4ec] text-[10px] font-black uppercase tracking-widest">Workflow</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Streamlined Cost Planning</h2>
+            <p className="text-white/50 max-w-2xl mx-auto font-medium">From concept to bank-ready feasibility study in less than 2 minutes.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map((step, idx) => (
+              <div key={idx} className="bg-white/5 p-8 rounded-[2.5rem] border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-colors group">
+                <div className="size-14 rounded-2xl bg-[#13a4ec]/10 flex items-center justify-center text-[#13a4ec] mb-6 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-3xl">{step.icon}</span>
+                </div>
+                <h3 className="text-xl font-black mb-3">{step.title}</h3>
+                <p className="text-sm text-white/40 leading-relaxed font-medium">{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -95,6 +95,9 @@ export interface ProjectData {
     email: string;
     projectLocation?: string;
   };
+  // Payment State
+  isPaid?: boolean;
+  paymentId?: string;
 }
 
 export type UserRole = 'admin' | 'user' | 'guest';

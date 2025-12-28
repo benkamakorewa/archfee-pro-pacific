@@ -4,6 +4,8 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { CalculationResults, ProjectData } from '../types';
+import PaymentGateway from '../components/PaymentGateway';
+import AuthScreen from './AuthScreen';
 
 interface SecureReportScreenProps {
    results: CalculationResults;
@@ -16,6 +18,12 @@ interface SecureReportScreenProps {
 const SecureReportScreen: React.FC<SecureReportScreenProps> = ({ results, projectData, onUpdate, onBack, onReportGenerated }) => {
    const { currentUser } = useAuth();
    const [view, setView] = useState<'details' | 'processing' | 'success'>('details');
+   const [showPayment, setShowPayment] = useState(false);
+   const [showAuth, setShowAuth] = useState(false);
+
+   // Hardcoded Price for MVP
+   const REPORT_PRICE = 50;
+
 
    useEffect(() => {
       if (currentUser) {
@@ -29,16 +37,38 @@ const SecureReportScreen: React.FC<SecureReportScreenProps> = ({ results, projec
       }
    }, [currentUser]);
 
-   const handleSecure = async (e: React.FormEvent) => {
+   const handleGenerateClick = (e: React.FormEvent) => {
       e.preventDefault();
+
+      // If already paid, just go to report
+      if (projectData.isPaid) {
+         onReportGenerated();
+         return;
+      }
+
+      if (!currentUser) {
+         setShowAuth(true);
+         return;
+      }
+
+      // If logged in, show Payment Gate
+      setShowPayment(true);
+   };
+
+   const handlePaymentSuccess = async () => {
+      setShowPayment(false);
       setView('processing');
+
+      // Update local state to reflect payment
+      onUpdate({ isPaid: true, paymentId: `PAY-${Date.now()}` });
+      const paidData = { ...projectData, isPaid: true, paymentId: `PAY-${Date.now()}` };
 
       if (currentUser) {
          try {
             await addDoc(collection(db, 'estimates'), {
                userId: currentUser.id,
                createdAt: new Date().toISOString(),
-               data: projectData,
+               data: paidData,
                results: results
             });
          } catch (error) {
@@ -58,6 +88,26 @@ const SecureReportScreen: React.FC<SecureReportScreenProps> = ({ results, projec
 
    return (
       <div className="max-w-4xl mx-auto px-6 py-12">
+         {showAuth && (
+            <div className="fixed inset-0 z-50 bg-[#111618]/50 backdrop-blur-sm flex items-center justify-center p-4">
+               <div className="bg-white rounded-[2rem] shadow-2xl relative overflow-hidden w-full max-w-lg">
+                  <button onClick={() => setShowAuth(false)} className="absolute top-4 right-4 z-10 p-2 hover:bg-gray-100 rounded-full">
+                     <span className="material-symbols-outlined">close</span>
+                  </button>
+                  <AuthScreen onSuccess={() => setShowAuth(false)} />
+               </div>
+            </div>
+         )}
+
+         {showPayment && (
+            <PaymentGateway
+               amount={REPORT_PRICE}
+               currency={results.currency}
+               onSuccess={handlePaymentSuccess}
+               onCancel={() => setShowPayment(false)}
+            />
+         )}
+
          {view === 'details' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center animate-in fade-in duration-500">
                <div className="space-y-6">
@@ -83,14 +133,14 @@ const SecureReportScreen: React.FC<SecureReportScreenProps> = ({ results, projec
                <div className="bg-white p-10 rounded-[2.5rem] shadow-2xl border border-gray-100 space-y-6">
                   <div className="text-center">
                      <h3 className="text-xl font-black mb-1">
-                        {currentUser ? 'Generate Linked Report' : 'Create Secure Account'}
+                        {projectData.isPaid ? 'Ready to View' : (currentUser ? 'Purchase Official Document' : 'Create Account to Purchase')}
                      </h3>
                      <p className="text-xs text-gray-400 font-medium">
-                        {currentUser ? 'This estimate will be saved to your dashboard.' : 'Download links will be emailed instantly.'}
+                        {projectData.isPaid ? 'Your report is unlocked.' : (currentUser ? 'Securely unlock valid PDF generation.' : 'Sign in to save estimate & unlock payments.')}
                      </p>
                   </div>
 
-                  <form className="space-y-4" onSubmit={handleSecure}>
+                  <form className="space-y-4" onSubmit={handleGenerateClick}>
                      <div className="space-y-1">
                         <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">Full Name</label>
                         <input
@@ -109,9 +159,9 @@ const SecureReportScreen: React.FC<SecureReportScreenProps> = ({ results, projec
                            onChange={(e) => onUpdate({ clientDetails: { ...projectData.clientDetails, email: e.target.value } })}
                         />
                      </div>
-                     <button className="w-full h-16 bg-[#13a4ec] text-white font-black rounded-2xl shadow-xl shadow-[#13a4ec]/20 text-lg flex items-center justify-center gap-2">
-                        {currentUser ? 'Save & Generate' : 'Pay & Generate Report'}
-                        <span className="material-symbols-outlined">{currentUser ? 'save' : 'payments'}</span>
+                     <button className="w-full h-16 bg-[#13a4ec] text-white font-black rounded-2xl shadow-xl shadow-[#13a4ec]/20 text-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform">
+                        {projectData.isPaid ? 'View Report' : (currentUser ? `Example Pay ${formatCurrency(REPORT_PRICE)}` : 'Sign In & Continue')}
+                        <span className="material-symbols-outlined">{projectData.isPaid ? 'description' : (currentUser ? 'credit_card' : 'login')}</span>
                      </button>
                   </form>
                </div>
