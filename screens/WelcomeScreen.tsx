@@ -54,7 +54,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
               2025 Market Intelligence Active
             </div>
             <h1 className="text-5xl lg:text-7xl font-black leading-none tracking-tight text-[#111618]">
-              ArchFee Pro <br /><span className="text-[#13a4ec]">{selectedCountry}</span>
+              ArchFee Pro <br /><span className="text-[#13a4ec]">South Pacific</span>
             </h1>
             <p className="text-xl font-medium text-gray-500 leading-relaxed max-w-lg">
               The professional cost planning tool built specifically for the logistical complexities of {selectedCountry}'s residential development.
@@ -117,18 +117,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
               <div className="space-y-2">
                 <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">Market Intelligence Status</p>
                 <p className="text-white text-3xl font-black leading-tight tracking-tighter">{selectedCountry} <br />Residential Index</p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-xl px-5 py-3 rounded-2xl border border-white/20 flex flex-col items-end gap-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-green-400 font-black text-xs">▲ 1.4%</span>
-                  <span className="text-white text-[10px] font-black uppercase tracking-widest opacity-60">Materials Price</span>
-                </div>
-                {region.lastSync && (
-                  <div className="text-[9px] text-white/80 font-bold uppercase tracking-widest mb-1">
-                    Updated: {region.lastSync}
-                  </div>
-                )}
-                <div className="text-[8px] text-white/40 font-bold uppercase tracking-widest">Ref: {Object.keys(region.locations)[0]} Market Data</div>
               </div>
             </div>
           </div>
