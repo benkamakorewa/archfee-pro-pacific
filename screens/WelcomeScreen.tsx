@@ -41,6 +41,16 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     { icon: 'payments', title: '4. Feasibility', desc: 'Generate bank-ready estimates & fee proposals.' }
   ];
 
+  const countryImages: Record<CountryKey, string> = {
+    [CountryKey.FIJI]: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.VANUATU]: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.SAMOA]: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.SOLOMON_ISLANDS]: 'https://images.unsplash.com/photo-1544257740-9a2dfd663e26?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.PNG]: 'https://images.unsplash.com/photo-1552084117-56a987666449?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.TONGA]: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.COOK_ISLANDS]: 'https://images.unsplash.com/photo-1590523741477-25f0cff88831?auto=format&fit=crop&q=80&w=1200'
+  };
+
   return (
     <div className="flex flex-col animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col lg:flex-row gap-16 items-center min-h-[90vh]">
@@ -105,12 +115,12 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           </div>
         </div>
 
-        <div className="lg:w-1/2 w-full">
-          <div className="aspect-[4/3] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group">
+        <div className="lg:w-1/2 w-full h-full">
+          <div className="h-[600px] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group transition-all duration-500">
             <img
-              src="https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=800"
-              alt="Pacific Architecture"
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+              src={countryImages[selectedCountry]}
+              alt={`${selectedCountry} Architecture`}
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-[#111618]/80 via-transparent to-transparent" />
             <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
