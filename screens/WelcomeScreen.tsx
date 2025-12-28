@@ -54,7 +54,8 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   return (
     <div className="flex flex-col animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col lg:flex-row gap-16 items-center min-h-[90vh]">
-        <div className="lg:w-1/2 flex-1 flex flex-col gap-8">
+        {/* Left Column: Text & Selection */}
+        <div className="w-full lg:w-1/2 flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <div className="inline-flex items-center gap-2 bg-[#13a4ec]/10 text-[#13a4ec] w-fit px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
               <span className="relative flex h-2 w-2">
@@ -115,15 +116,15 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           </div>
         </div>
 
-        <div className="lg:w-1/2 flex-1 w-full h-full">
-          <div className="h-[600px] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group transition-all duration-500">
-            <img
-              src={countryImages[selectedCountry]}
-              alt={`${selectedCountry} Architecture`}
-              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+        {/* Right Column: Hero Image */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center">
+          <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group">
+            <div
+              className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+              style={{ backgroundImage: `url(${countryImages[selectedCountry]})` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#111618]/80 via-transparent to-transparent" />
-            <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#111618]/80 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end pointer-events-none">
               <div className="space-y-2">
                 <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">Market Intelligence Status</p>
                 <p className="text-white text-3xl font-black leading-tight tracking-tighter">{selectedCountry} <br />Residential Index</p>
