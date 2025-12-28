@@ -34,6 +34,7 @@ import Header from './components/Header';
 import ProgressBar from './components/ProgressBar';
 import AuthScreen from './screens/AuthScreen';
 import MyEstimatesScreen from './screens/MyEstimatesScreen';
+import Footer from './components/Footer';
 import { useAuth } from './contexts/AuthContext';
 
 const App: React.FC = () => {
@@ -166,6 +167,10 @@ const App: React.FC = () => {
         )}
         <div className="flex-1">{renderStep()}</div>
       </div>
+      <Footer
+        onNewEstimate={() => { setStep(0); setShowReport(false); setIsAdminView(false); setShowAuth(false); setShowMyEstimates(false); }}
+        selectedCountry={data.country}
+      />
     </div>
   );
 };
