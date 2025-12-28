@@ -8,7 +8,8 @@ import {
   CountryKey,
   LandType,
   ResidentialCategory,
-  User
+  User,
+  UserRole
 } from './types';
 import {
   REGIONAL_DATA as STATIC_REGIONAL_DATA,
@@ -31,19 +32,18 @@ import AdminDashboard from './screens/AdminDashboard';
 
 import Header from './components/Header';
 import ProgressBar from './components/ProgressBar';
+import AuthScreen from './screens/AuthScreen';
+import MyEstimatesScreen from './screens/MyEstimatesScreen';
+import { useAuth } from './contexts/AuthContext';
 
 const App: React.FC = () => {
-  // Mock Authentication State
-  const [currentUser] = useState<User>({
-    id: 'u1',
-    name: 'Demo Admin',
-    role: 'admin', // Change to 'user' to test non-admin view
-    email: 'admin@archfeepro.com'
-  });
+  const { currentUser, loading, logout } = useAuth();
 
   const [step, setStep] = useState(0);
   const [isAdminView, setIsAdminView] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const [showMyEstimates, setShowMyEstimates] = useState(false);
 
   // Data State
   const [data, setData] = useState<ProjectData>({
@@ -86,7 +86,31 @@ const App: React.FC = () => {
   };
 
   const renderStep = () => {
-    if (isAdminView) return <AdminDashboard country={data.country} onExit={() => setIsAdminView(false)} />;
+    if (showAuth) return <AuthScreen onSuccess={() => setShowAuth(false)} />;
+    if (showMyEstimates) return <MyEstimatesScreen onLoadEstimate={(estData) => {
+      setData(estData);
+      setShowMyEstimates(false);
+      // Assuming step 4 is financial dashboard or similar, where they can see the data.
+      // Or step 5 (SecureReport) if they want to generate report. 
+      // Let's go to step 4 (Financial Dashboard) or 1 (Profile) to review.
+      // Let's go to step 1 to review inputs.
+      setStep(1);
+    }} />;
+
+    if (isAdminView) {
+      if (!currentUser || currentUser.role !== 'admin') {
+        return (
+          <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-6">
+            <div className="max-w-md">
+              <h2 className="text-2xl font-bold text-red-600 mb-2">Access Denied</h2>
+              <p className="text-slate-600 mb-6">You need administrator privileges to access this area.</p>
+              <button onClick={() => setIsAdminView(false)} className="text-blue-600 hover:underline">Return to Home</button>
+            </div>
+          </div>
+        );
+      }
+      return <AdminDashboard country={data.country} onExit={() => setIsAdminView(false)} />;
+    }
     if (showReport) return <PremiumReportPreview results={results} projectData={data} onBack={() => setShowReport(false)} />;
 
     switch (step) {
@@ -104,12 +128,41 @@ const App: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-[#f6f7f8] font-display">
       <Header
         isSyncing={isSyncing}
-        onDashboard={() => { setIsAdminView(true); setShowReport(false); }}
-        onNewEstimate={() => { setStep(0); setShowReport(false); setIsAdminView(false); }}
+        onDashboard={() => {
+          if (currentUser) {
+            // If admin, show admin. If user, show estimates? 
+            // Actually currently "Dashboard" button is specific for Admin in Header.
+            // But we added "My Estimates" button in Header which calls onDashboard? 
+            // Wait, let's check Header.tsx again.
+            // Header has: 
+            // Admin: <button onClick={onDashboard}>Admin Area</button>
+            // User: <button onClick={onDashboard}>My Estimates</button>
+            // So onDashboard does double duty.
+            if (currentUser.role === 'admin') {
+              setIsAdminView(true);
+            } else {
+              setShowMyEstimates(true);
+            }
+            setShowReport(false);
+            setShowAuth(false);
+          } else {
+            setShowAuth(true);
+          }
+        }}
+        onNewEstimate={() => { setStep(0); setShowReport(false); setIsAdminView(false); setShowAuth(false); setShowMyEstimates(false); }}
+        onLogin={() => { setShowAuth(true); setIsAdminView(false); setShowReport(false); setShowMyEstimates(false); }}
+        onLogout={async () => {
+          await logout();
+          setStep(0);
+          setIsAdminView(false);
+          setShowReport(false);
+          setShowMyEstimates(false);
+          setShowAuth(false); // Close auth screen if open, though they are logged out.
+        }}
         currentUser={currentUser}
       />
       <div className="flex-1 flex flex-col">
-        {step > 0 && !showReport && !isAdminView && (
+        {step > 0 && !showReport && !isAdminView && !showAuth && !showMyEstimates && (
           <div className="w-full max-w-4xl mx-auto px-6 py-6"><ProgressBar current={step} total={5} /></div>
         )}
         <div className="flex-1">{renderStep()}</div>

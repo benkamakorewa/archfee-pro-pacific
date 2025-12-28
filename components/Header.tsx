@@ -4,11 +4,13 @@ import { User } from '../types';
 interface HeaderProps {
   onDashboard?: () => void;
   onNewEstimate?: () => void;
+  onLogin?: () => void;
+  onLogout?: () => void;
   isSyncing?: boolean;
   currentUser?: User;
 }
 
-const Header: React.FC<HeaderProps> = ({ onDashboard, onNewEstimate, isSyncing, currentUser }) => {
+const Header: React.FC<HeaderProps> = ({ onDashboard, onNewEstimate, onLogin, onLogout, isSyncing, currentUser }) => {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 lg:px-10 shadow-sm">
       <div className="flex items-center gap-4 text-[#111618]">
@@ -33,7 +35,12 @@ const Header: React.FC<HeaderProps> = ({ onDashboard, onNewEstimate, isSyncing, 
               Admin Area
             </button>
           )}
-          {/* Projects and Settings removed as per requirements to reduce clutter */}
+          {currentUser && (
+            <button onClick={onDashboard} className="text-[#111618] hover:text-[#13a4ec] transition-colors text-sm font-medium flex items-center gap-2">
+              <span className="material-symbols-outlined text-sm">history</span>
+              My Estimates
+            </button>
+          )}
         </nav>
         <button
           onClick={onNewEstimate}
@@ -42,11 +49,20 @@ const Header: React.FC<HeaderProps> = ({ onDashboard, onNewEstimate, isSyncing, 
           New Estimate
         </button>
 
-        {currentUser && (
+        {currentUser ? (
           <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
             <div className="size-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-bold text-xs">
               {currentUser.name.charAt(0)}
             </div>
+            <button onClick={onLogout} className="text-sm font-medium text-slate-500 hover:text-slate-800">
+              Sign Out
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
+            <button onClick={onLogin} className="text-sm font-bold text-[#13a4ec] hover:text-[#118bc7]">
+              Sign In
+            </button>
           </div>
         )}
       </div>
