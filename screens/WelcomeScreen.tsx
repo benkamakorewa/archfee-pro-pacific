@@ -54,7 +54,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   return (
     <div className="flex flex-col animate-in fade-in duration-700">
       <div className="max-w-7xl mx-auto px-6 py-12 lg:py-20 flex flex-col lg:flex-row gap-16 items-center min-h-[90vh]">
-        <div className="lg:w-1/2 flex flex-col gap-8">
+        <div className="lg:w-1/2 flex-1 flex flex-col gap-8">
           <div className="flex flex-col gap-4">
             <div className="inline-flex items-center gap-2 bg-[#13a4ec]/10 text-[#13a4ec] w-fit px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest">
               <span className="relative flex h-2 w-2">
@@ -115,7 +115,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
           </div>
         </div>
 
-        <div className="lg:w-1/2 w-full h-full">
+        <div className="lg:w-1/2 flex-1 w-full h-full">
           <div className="h-[600px] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group transition-all duration-500">
             <img
               src={countryImages[selectedCountry]}
