@@ -1,0 +1,7 @@
+{
+  "name": "ArchFee Pro",
+  "description": "A professional residential construction cost and architectural fee estimator for the Fiji and Pacific market.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
