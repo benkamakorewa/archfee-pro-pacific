@@ -64,8 +64,8 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
               </span>
               2025 Market Intelligence Active
             </div>
-            <h1 className="text-5xl lg:text-7xl font-black leading-none tracking-tight text-[#111618]">
-              ArchFee Pro <br /><span className="text-[#13a4ec]">South Pacific</span>
+            <h1 className="text-5xl lg:text-7xl font-black leading-[0.9] tracking-tight text-[#111618]">
+              ArchFee Pro <br /><span className="text-[#13a4ec] text-4xl lg:text-6xl">South Pacific</span>
             </h1>
             <p className="text-xl font-medium text-gray-500 leading-relaxed max-w-lg">
               The professional cost planning tool built specifically for the logistical complexities of {selectedCountry}'s residential development.
