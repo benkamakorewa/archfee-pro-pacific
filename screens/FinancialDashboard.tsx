@@ -54,7 +54,7 @@ const FinancialDashboard: React.FC<FinancialDashboardProps> = ({ results, projec
                      <span className="material-symbols-outlined text-[200px] font-black">bar_chart_4_bars</span>
                   </div>
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-4">Total Construction Est.</p>
-                  <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#13a4ec] tracking-tighter mb-12 truncate" title={formatCurrency(results.constructionCost)}>{formatCurrency(results.constructionCost)}</h2>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#13a4ec] tracking-tighter mb-12 leading-none break-all lg:break-normal" title={formatCurrency(results.constructionCost)}>{formatCurrency(results.constructionCost)}</h2>
 
                   <div className="space-y-5 pt-10 border-t border-white/10">
                      <div className="flex justify-between items-center text-[10px] font-black text-white/40 uppercase tracking-widest">
