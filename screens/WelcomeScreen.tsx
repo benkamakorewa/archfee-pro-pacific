@@ -42,13 +42,13 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   ];
 
   const countryImages: Record<CountryKey, string> = {
-    [CountryKey.FIJI]: 'https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=1200',
-    [CountryKey.VANUATU]: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&q=80&w=1200',
-    [CountryKey.SAMOA]: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.FIJI]: '/assets/images/countries/fiji.jpg',
+    [CountryKey.VANUATU]: '/assets/images/countries/vanuatu.jpg',
+    [CountryKey.SAMOA]: '/assets/images/countries/samoa.jpg',
     [CountryKey.SOLOMON_ISLANDS]: 'https://images.unsplash.com/photo-1544257740-9a2dfd663e26?auto=format&fit=crop&q=80&w=1200',
-    [CountryKey.PNG]: 'https://images.unsplash.com/photo-1552084117-56a987666449?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.PNG]: '/assets/images/countries/png.jpg',
     [CountryKey.TONGA]: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&q=80&w=1200',
-    [CountryKey.COOK_ISLANDS]: 'https://images.unsplash.com/photo-1590523741477-25f0cff88831?auto=format&fit=crop&q=80&w=1200'
+    [CountryKey.COOK_ISLANDS]: '/assets/images/countries/cook-islands.jpg'
   };
 
   return (
