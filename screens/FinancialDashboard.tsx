@@ -48,13 +48,19 @@ const FinancialDashboard: React.FC<FinancialDashboardProps> = ({ results, projec
 
          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Col: Main Totals */}
-            <div className="lg:col-span-4 flex flex-col gap-6">
-               <div className="bg-[#111618] rounded-[3.5rem] p-12 text-white shadow-2xl relative overflow-hidden group">
+            <div className="lg:col-span-4 flex flex-col gap-6" style={{ containerType: 'inline-size', containerName: 'costcard' }}>
+               <div className="bg-[#111618] rounded-[3.5rem] p-10 sm:p-12 text-white shadow-2xl relative overflow-hidden group min-h-[400px] flex flex-col justify-between">
                   <div className="absolute top-0 right-0 p-12 opacity-5 scale-150 rotate-12 group-hover:rotate-45 transition-transform duration-1000">
                      <span className="material-symbols-outlined text-[200px] font-black">bar_chart_4_bars</span>
                   </div>
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40 mb-4">Total Construction Est.</p>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#13a4ec] tracking-tighter mb-12 leading-none break-all lg:break-normal" title={formatCurrency(results.constructionCost)}>{formatCurrency(results.constructionCost)}</h2>
+                  <h2
+                     className="font-black text-[#13a4ec] tracking-tighter leading-[0.9] break-words"
+                     style={{ fontSize: 'clamp(2.5rem, 15cqw, 4.5rem)' }}
+                     title={formatCurrency(results.constructionCost)}
+                  >
+                     {formatCurrency(results.constructionCost)}
+                  </h2>
 
                   <div className="space-y-5 pt-10 border-t border-white/10">
                      <div className="flex justify-between items-center text-[10px] font-black text-white/40 uppercase tracking-widest">
