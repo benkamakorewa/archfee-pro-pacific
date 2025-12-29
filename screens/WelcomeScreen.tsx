@@ -120,7 +120,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         <div className="w-full flex items-center justify-center">
           <div className="w-full aspect-[4/5] lg:aspect-[3/4] rounded-[3rem] overflow-hidden shadow-2xl relative border border-gray-100 group">
             <div
-              className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+              className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 group-hover:scale-100"
               style={{ backgroundImage: `url(${countryImages[selectedCountry]})` }}
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-[#111618]/80 via-transparent to-transparent pointer-events-none" />
