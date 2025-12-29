@@ -45,9 +45,9 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     [CountryKey.FIJI]: '/assets/images/countries/fiji.jpg',
     [CountryKey.VANUATU]: '/assets/images/countries/vanuatu.jpg',
     [CountryKey.SAMOA]: '/assets/images/countries/samoa.jpg',
-    [CountryKey.SOLOMON_ISLANDS]: 'https://images.unsplash.com/photo-1544257740-9a2dfd663e26?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.SOLOMON_ISLANDS]: '/assets/images/countries/solomon-islands.jpg',
     [CountryKey.PNG]: '/assets/images/countries/png.jpg',
-    [CountryKey.TONGA]: 'https://images.unsplash.com/photo-1516690561799-46d8f74f9abf?auto=format&fit=crop&q=80&w=1200',
+    [CountryKey.TONGA]: '/assets/images/countries/tonga.jpg',
     [CountryKey.COOK_ISLANDS]: '/assets/images/countries/cook-islands.jpg'
   };
 
