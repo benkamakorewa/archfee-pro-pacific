@@ -27,70 +27,43 @@ const MarketContextScreen: React.FC<MarketContextScreenProps> = ({ data, onUpdat
         <p className="text-gray-500">Factors that influence local construction rates in {data.country}.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Quality Standard */}
-        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex flex-col gap-6">
-          <div className="flex items-center gap-3">
-            <div className="size-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
-              <span className="material-symbols-outlined">diamond</span>
+      <div className="max-w-2xl mx-auto w-full space-y-6">
+        <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm space-y-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="size-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+              <span className="material-symbols-outlined">location_on</span>
             </div>
-            <h3 className="font-black">Build Quality</h3>
+            <h3 className="font-black text-xl">Site Location</h3>
           </div>
-          <div className="space-y-3">
-            {standards.map(s => (
-              <button
-                key={s}
-                onClick={() => onUpdate({ standard: s })}
-                className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${data.standard === s ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-500'
-                  }`}
-              >
-                <span className="font-bold text-sm">{s} Standard</span>
-                {data.standard === s && <span className="material-symbols-outlined text-sm font-black">check</span>}
-              </button>
-            ))}
-          </div>
-          <p className="text-[10px] text-gray-400 font-bold leading-relaxed italic uppercase tracking-wider">
-            * Premium and Luxury standards available for multi-unit and hospitality developments.
-          </p>
+          <p className="text-sm text-gray-500 font-medium mb-4">Select the specific regional location to apply localized market multipliers.</p>
+          <select
+            value={data.location}
+            onChange={(e) => onUpdate({ location: e.target.value })}
+            className="w-full h-16 bg-gray-50 border-gray-100 rounded-2xl px-6 font-black text-lg focus:ring-[#13a4ec]"
+          >
+            {Object.keys(region.locations).map(loc => <option key={loc} value={loc}>{loc}</option>)}
+          </select>
         </div>
 
-        {/* Location & Land */}
-        <div className="space-y-6">
-          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="size-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                <span className="material-symbols-outlined">location_on</span>
-              </div>
-              <h3 className="font-black">Site Location</h3>
+        <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm space-y-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="size-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
+              <span className="material-symbols-outlined">description</span>
             </div>
-            <select
-              value={data.location}
-              onChange={(e) => onUpdate({ location: e.target.value })}
-              className="w-full h-14 bg-gray-50 border-gray-100 rounded-xl px-4 font-bold text-sm focus:ring-[#13a4ec]"
-            >
-              {Object.keys(region.locations).map(loc => <option key={loc} value={loc}>{loc}</option>)}
-            </select>
+            <h3 className="font-black text-xl">Land Tenure</h3>
           </div>
-
-          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-4">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="size-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center">
-                <span className="material-symbols-outlined">description</span>
-              </div>
-              <h3 className="font-black">Land Tenure</h3>
-            </div>
-            <div className="grid grid-cols-1 gap-2">
-              {landTypes.map(t => (
-                <button
-                  key={t}
-                  onClick={() => onUpdate({ landType: t })}
-                  className={`p-3 rounded-lg border-2 text-[11px] font-black uppercase tracking-widest transition-all ${data.landType === t ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-400'
-                    }`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
+          <p className="text-sm text-gray-500 font-medium mb-6">Select the land ownership model to calculate legal and survey contingencies.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {landTypes.map(t => (
+              <button
+                key={t}
+                onClick={() => onUpdate({ landType: t })}
+                className={`p-4 rounded-xl border-2 text-[11px] font-black uppercase tracking-widest transition-all ${data.landType === t ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-400'
+                  }`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
         </div>
       </div>

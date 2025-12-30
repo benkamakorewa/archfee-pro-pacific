@@ -219,6 +219,35 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                 </div>
               </div>
             )}
+
+            {/* Quality Standard Integrated */}
+            <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col gap-6">
+              <div className="flex items-center gap-3">
+                <div className="size-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center">
+                  <span className="material-symbols-outlined">diamond</span>
+                </div>
+                <h3 className="font-black">Build Quality</h3>
+              </div>
+              <div className="space-y-3">
+                {(data.category === ResidentialCategory.COMMERCIAL_RESORT
+                  ? [ConstructionStandard.STANDARD, ConstructionStandard.HIGH_END, ConstructionStandard.PREMIUM, ConstructionStandard.LUXURY]
+                  : [ConstructionStandard.BASIC, ConstructionStandard.STANDARD, ConstructionStandard.HIGH_END]
+                ).map(s => (
+                  <button
+                    key={s}
+                    onClick={() => onUpdate({ standard: s })}
+                    className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${data.standard === s ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-500'
+                      }`}
+                  >
+                    <span className="font-bold text-sm">{s} Standard</span>
+                    {data.standard === s && <span className="material-symbols-outlined text-sm font-black">check</span>}
+                  </button>
+                ))}
+              </div>
+              <p className="text-[10px] text-gray-400 font-bold leading-relaxed italic uppercase tracking-wider">
+                * Premium and Luxury standards available for multi-unit and hospitality developments.
+              </p>
+            </div>
           </div>
 
           {/* Right Column: Quantitative & Area */}
