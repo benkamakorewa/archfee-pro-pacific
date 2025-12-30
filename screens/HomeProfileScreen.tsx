@@ -96,7 +96,7 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
           <React.Fragment key={s}>
             <div className="flex items-center gap-2">
               <div className={`size-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 transition-all ${internalStep > idx + 1 ? 'bg-green-500 border-green-500 text-white' :
-                  internalStep === idx + 1 ? 'border-[#13a4ec] text-[#13a4ec]' : 'border-gray-200 text-gray-300'
+                internalStep === idx + 1 ? 'border-[#13a4ec] text-[#13a4ec]' : 'border-gray-200 text-gray-300'
                 }`}>
                 {internalStep > idx + 1 ? <span className="material-symbols-outlined text-xs">check</span> : idx + 1}
               </div>
@@ -127,6 +127,7 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                 <span className="material-symbols-outlined text-4xl">{cat.icon}</span>
               </div>
               <div className="space-y-3">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#13a4ec]">Group {categories.indexOf(cat) + 1}</p>
                 <h3 className="text-xl font-black leading-tight">{cat.label}</h3>
                 <p className="text-sm text-gray-500 font-medium leading-relaxed">{cat.desc}</p>
               </div>

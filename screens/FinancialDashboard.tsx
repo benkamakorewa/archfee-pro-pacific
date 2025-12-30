@@ -113,7 +113,10 @@ const FinancialDashboard: React.FC<FinancialDashboardProps> = ({ results, projec
                         </div>
                         <div className="p-4 bg-gray-50 rounded-2xl">
                            <p className="text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Category</p>
-                           <p className="text-xs font-black text-[#111618] truncate" title={projectData.category}>{projectData.category.split(' ')[0]}</p>
+                           <p className="text-xs font-black text-[#111618] truncate" title={projectData.category}>
+                              {projectData.category === ResidentialCategory.STANDALONE ? 'Group 1' :
+                                 projectData.category === ResidentialCategory.MULTI_UNIT ? 'Group 2' : 'Group 3'}
+                           </p>
                         </div>
                      </div>
                   </div>
