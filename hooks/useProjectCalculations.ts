@@ -31,9 +31,9 @@ export const useProjectCalculations = (
         const categoryMultiplier = CATEGORY_MULTIPLIERS[data.category];
         const complexityFactor = data.doubleStorey ? 1.15 : 1.0;
 
-        // Facility Add-ons (High Density)
+        // Facility Add-ons (Commercial/Resort)
         let facilityMarkup = 1.0;
-        if (data.category === ResidentialCategory.HIGH_DENSITY && data.sharedFacilities) {
+        if (data.category === ResidentialCategory.COMMERCIAL_RESORT && data.sharedFacilities) {
             if (data.sharedFacilities.restaurant) facilityMarkup += 0.15;
             if (data.sharedFacilities.pool) facilityMarkup += 0.08;
             if (data.sharedFacilities.conference) facilityMarkup += 0.12;
@@ -63,7 +63,7 @@ export const useProjectCalculations = (
             const range = FIXED_FEE_RANGES[data.buildingType];
             totalFee = (range.min + range.max) / 2;
             if (data.doubleStorey) totalFee *= 1.1;
-            if (data.category !== ResidentialCategory.LOW_DENSITY) totalFee *= categoryMultiplier;
+            if (data.category !== ResidentialCategory.STANDALONE) totalFee *= categoryMultiplier;
         }
 
         const stageBreakdown = STAGE_WEIGHTS.map(s => ({

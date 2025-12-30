@@ -11,21 +11,21 @@ interface BuildingTypeScreenProps {
   onBack: () => void;
 }
 
-const BuildingTypeScreen: React.FC<BuildingTypeScreenProps> = ({ 
-  value, 
-  doubleStorey, 
-  onSelect, 
-  onToggleDouble, 
-  onNext, 
-  onBack 
+const BuildingTypeScreen: React.FC<BuildingTypeScreenProps> = ({
+  value,
+  doubleStorey,
+  onSelect,
+  onToggleDouble,
+  onNext,
+  onBack
 }) => {
   // Fix: BuildingType enum does not contain bedroom-based keys (ONE_BED, etc.).
   // Updated to use valid members from the BuildingType enum defined in types.ts.
   const options = [
-    { type: BuildingType.DETACHED_HOUSE, icon: 'house' },
-    { type: BuildingType.TOWN_HOUSE, icon: 'holiday_village' },
-    { type: BuildingType.WALK_UP_APARTMENT, icon: 'stairs' },
-    { type: BuildingType.LOW_RISE_APARTMENT, icon: 'domain' },
+    { type: BuildingType.SINGLE_DWELLING, icon: 'house' },
+    { type: BuildingType.TOWN_HOUSE_DUPLEX, icon: 'holiday_village' },
+    { type: BuildingType.APARTMENTS, icon: 'domain' },
+    { type: BuildingType.HOSTEL_GUEST_HOUSE, icon: 'groups' },
   ];
 
   return (
@@ -40,15 +40,13 @@ const BuildingTypeScreen: React.FC<BuildingTypeScreenProps> = ({
           <button
             key={opt.type}
             onClick={() => onSelect(opt.type)}
-            className={`flex flex-col items-center justify-center p-8 gap-4 rounded-2xl border-2 transition-all group ${
-              value === opt.type 
-                ? 'border-[#13a4ec] bg-[#13a4ec]/5 ring-1 ring-[#13a4ec]/20' 
+            className={`flex flex-col items-center justify-center p-8 gap-4 rounded-2xl border-2 transition-all group ${value === opt.type
+                ? 'border-[#13a4ec] bg-[#13a4ec]/5 ring-1 ring-[#13a4ec]/20'
                 : 'border-white bg-white hover:border-gray-200'
-            } shadow-sm`}
+              } shadow-sm`}
           >
-            <div className={`size-16 rounded-full flex items-center justify-center transition-colors ${
-              value === opt.type ? 'bg-white text-[#13a4ec]' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'
-            }`}>
+            <div className={`size-16 rounded-full flex items-center justify-center transition-colors ${value === opt.type ? 'bg-white text-[#13a4ec]' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'
+              }`}>
               <span className="material-symbols-outlined text-3xl font-bold">{opt.icon}</span>
             </div>
             <span className={`font-bold transition-colors ${value === opt.type ? 'text-[#13a4ec]' : 'text-gray-600'}`}>
@@ -68,11 +66,11 @@ const BuildingTypeScreen: React.FC<BuildingTypeScreenProps> = ({
             <span className="font-semibold text-gray-700">Double storey home?</span>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
-            <input 
-              type="checkbox" 
-              checked={doubleStorey} 
-              onChange={onToggleDouble} 
-              className="sr-only peer" 
+            <input
+              type="checkbox"
+              checked={doubleStorey}
+              onChange={onToggleDouble}
+              className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#13a4ec]"></div>
           </label>

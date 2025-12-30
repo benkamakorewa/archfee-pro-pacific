@@ -10,23 +10,24 @@ export enum CountryKey {
 }
 
 export enum ResidentialCategory {
-  LOW_DENSITY = 'Low Density Residential',
-  MEDIUM_DENSITY = 'Medium Density Residential',
-  HIGH_DENSITY = 'High Density and Hospitality'
+  STANDALONE = 'Standalone Residential Dwellings',
+  MULTI_UNIT = 'Multi-Unit and Group Residential Accommodation',
+  COMMERCIAL_RESORT = 'Commercial, Public, and Resort Infrastructure'
 }
 
 export enum BuildingType {
-  // Low Density
-  DETACHED_HOUSE = 'Detached House',
-  // Medium Density
-  WALK_UP_APARTMENT = 'Walk-up Apartment',
-  LOW_RISE_APARTMENT = 'Low-rise Apartment',
-  TOWN_HOUSE = 'Townhouses or Duplexes',
-  DORMITORY = 'Dormitory or Hostel',
-  // High Density
-  HOTEL = 'Hotel',
-  RESORT = 'Resort',
-  SERVICED_APARTMENT = 'Serviced Apartments'
+  // Group 1: Standalone
+  SINGLE_DWELLING = 'Single Dwelling (Class 1a)',
+  TOWN_HOUSE_DUPLEX = 'Townhouse or Duplex (Class 1a)',
+
+  // Group 2: Multi-Unit
+  APARTMENTS = 'Stacked Apartments (Class 2)',
+  HOSTEL_GUEST_HOUSE = 'Hostel or Guest House (Class 3)',
+
+  // Group 3: Commercial & Public
+  COMMERCIAL_FACILITY = 'Commercial (Class 6)',
+  PUBLIC_FACILITY = 'Public or Health (Class 9)',
+  RESORT_COMPLEX = 'Resort Infrastructure'
 }
 
 export enum ConstructionStandard {

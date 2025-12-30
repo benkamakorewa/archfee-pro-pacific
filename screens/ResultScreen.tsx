@@ -16,9 +16,9 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ results, projectData, onNex
   const [aiAdvice, setAiAdvice] = useState<string | null>(null);
 
   const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
-      currency: results.currency 
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: results.currency
     }).format(val).replace('US$', results.currency + ' ');
   };
 
@@ -26,7 +26,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({ results, projectData, onNex
     setAiLoading(true);
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const prompt = `You are a regional architectural advisor for the South Pacific.
+      const prompt = `You are a regional architectural advisor for the Pacific.
 Project Context:
 - Country: ${projectData.country}
 - Location: ${projectData.location}
@@ -109,7 +109,7 @@ Format as a Markdown list. Keep it concise.`;
                 <span className="text-sm font-black text-blue-700">{formatCurrency(results.contingency)}</span>
               </div>
             </div>
-            <button onClick={() => { setShowAIConsultant(true); if(!aiAdvice) askAI(); }} className="mt-4 flex items-center justify-center gap-3 p-4 bg-[#111618] text-white rounded-2xl font-bold shadow-lg hover:bg-black transition-all">
+            <button onClick={() => { setShowAIConsultant(true); if (!aiAdvice) askAI(); }} className="mt-4 flex items-center justify-center gap-3 p-4 bg-[#111618] text-white rounded-2xl font-bold shadow-lg hover:bg-black transition-all">
               <span className="material-symbols-outlined">psychology</span>
               Consult Regional AI
             </button>
@@ -118,12 +118,12 @@ Format as a Markdown list. Keep it concise.`;
           <div className="p-10 flex flex-col gap-6 lg:col-span-1 bg-gray-50/50">
             <h3 className="text-lg font-bold">Banking & Finance</h3>
             <p className="text-sm text-gray-500 leading-relaxed">
-              Unlock the full PDF proposal to share this estimate with major Pacific lenders for initial pre-assessment. 
+              Unlock the full PDF proposal to share this estimate with major Pacific lenders for initial pre-assessment.
               Our reports include the structural resilience breakdown required by many insurers.
             </p>
             <div className="p-4 rounded-xl border border-gray-200 bg-white">
-               <p className="text-[10px] font-black uppercase text-gray-400 mb-1">Currency Lock</p>
-               <p className="text-sm font-bold">All reports fixed in {results.currency}</p>
+              <p className="text-[10px] font-black uppercase text-gray-400 mb-1">Currency Lock</p>
+              <p className="text-sm font-bold">All reports fixed in {results.currency}</p>
             </div>
           </div>
 
@@ -150,23 +150,23 @@ Format as a Markdown list. Keep it concise.`;
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowAIConsultant(false)} />
           <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-8 border-b border-gray-100 flex justify-between items-center">
-               <h3 className="font-black">Regional AI Advisor</h3>
-               <button onClick={() => setShowAIConsultant(false)}><span className="material-symbols-outlined">close</span></button>
+              <h3 className="font-black">Regional AI Advisor</h3>
+              <button onClick={() => setShowAIConsultant(false)}><span className="material-symbols-outlined">close</span></button>
             </div>
             <div className="flex-1 overflow-y-auto p-8 space-y-6">
-               {aiLoading ? (
-                 <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
-                    <div className="size-10 border-4 border-[#13a4ec] border-t-transparent rounded-full animate-spin"></div>
-                    <p className="font-bold text-sm">Consulting regional experts...</p>
-                 </div>
-               ) : (
-                 <div className="text-sm leading-relaxed whitespace-pre-line text-gray-600">
-                   {aiAdvice}
-                 </div>
-               )}
+              {aiLoading ? (
+                <div className="flex flex-col items-center justify-center h-full gap-4 text-gray-400">
+                  <div className="size-10 border-4 border-[#13a4ec] border-t-transparent rounded-full animate-spin"></div>
+                  <p className="font-bold text-sm">Consulting regional experts...</p>
+                </div>
+              ) : (
+                <div className="text-sm leading-relaxed whitespace-pre-line text-gray-600">
+                  {aiAdvice}
+                </div>
+              )}
             </div>
             <div className="p-8 border-t border-gray-100">
-               <button onClick={() => setShowAIConsultant(false)} className="w-full h-14 bg-[#111618] text-white font-black rounded-xl">Close Advisor</button>
+              <button onClick={() => setShowAIConsultant(false)} className="w-full h-14 bg-[#111618] text-white font-black rounded-xl">Close Advisor</button>
             </div>
           </div>
         </div>

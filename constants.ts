@@ -53,38 +53,38 @@ export const REGIONAL_DATA: Record<CountryKey, RegionConfig> = {
     }
   },
   [CountryKey.SOLOMON_ISLANDS]: {
-     currency: 'SBD',
-     buildingCode: 'Solomon Islands Building Code',
-     locations: {
-        'Honiara': 1.0,
-        'Guadalcanal Rural': 1.2,
-        'Western Province': 1.4,
-        'Remote Islands': 1.8
-     },
-     baseRates: {
-        [ConstructionStandard.BASIC]: 6500,
-        [ConstructionStandard.STANDARD]: 9800,
-        [ConstructionStandard.HIGH_END]: 16000,
-        [ConstructionStandard.PREMIUM]: 19500,
-        [ConstructionStandard.LUXURY]: 25000,
-     }
+    currency: 'SBD',
+    buildingCode: 'Solomon Islands Building Code',
+    locations: {
+      'Honiara': 1.0,
+      'Guadalcanal Rural': 1.2,
+      'Western Province': 1.4,
+      'Remote Islands': 1.8
+    },
+    baseRates: {
+      [ConstructionStandard.BASIC]: 6500,
+      [ConstructionStandard.STANDARD]: 9800,
+      [ConstructionStandard.HIGH_END]: 16000,
+      [ConstructionStandard.PREMIUM]: 19500,
+      [ConstructionStandard.LUXURY]: 25000,
+    }
   },
   [CountryKey.PNG]: {
-     currency: 'PGK',
-     buildingCode: 'PNG Building Board Regulations',
-     locations: {
-        'Port Moresby': 1.0,
-        'Lae / Mt Hagen': 1.15,
-        'Highlands Rural': 1.45,
-        'Island Regions': 1.6
-     },
-     baseRates: {
-        [ConstructionStandard.BASIC]: 2800,
-        [ConstructionStandard.STANDARD]: 4500,
-        [ConstructionStandard.HIGH_END]: 7500,
-        [ConstructionStandard.PREMIUM]: 9200,
-        [ConstructionStandard.LUXURY]: 12000,
-     }
+    currency: 'PGK',
+    buildingCode: 'PNG Building Board Regulations',
+    locations: {
+      'Port Moresby': 1.0,
+      'Lae / Mt Hagen': 1.15,
+      'Highlands Rural': 1.45,
+      'Island Regions': 1.6
+    },
+    baseRates: {
+      [ConstructionStandard.BASIC]: 2800,
+      [ConstructionStandard.STANDARD]: 4500,
+      [ConstructionStandard.HIGH_END]: 7500,
+      [ConstructionStandard.PREMIUM]: 9200,
+      [ConstructionStandard.LUXURY]: 12000,
+    }
   },
   [CountryKey.TONGA]: {
     currency: 'TOP',
@@ -123,20 +123,19 @@ export const REGIONAL_DATA: Record<CountryKey, RegionConfig> = {
 };
 
 export const CATEGORY_MULTIPLIERS: Record<ResidentialCategory, number> = {
-  [ResidentialCategory.LOW_DENSITY]: 1.0,
-  [ResidentialCategory.MEDIUM_DENSITY]: 1.25, // Increased due to services/structure
-  [ResidentialCategory.HIGH_DENSITY]: 1.55, // Higher due to complexity/amenities
+  [ResidentialCategory.STANDALONE]: 1.0,
+  [ResidentialCategory.MULTI_UNIT]: 1.35, // Increased due to vertical services/fire structure
+  [ResidentialCategory.COMMERCIAL_RESORT]: 1.65, // Higher due to Importance Levels and occupancy loads
 };
 
 export const DEFAULT_AREAS: Record<BuildingType, number> = {
-  [BuildingType.DETACHED_HOUSE]: 160,
-  [BuildingType.WALK_UP_APARTMENT]: 600,
-  [BuildingType.LOW_RISE_APARTMENT]: 1200,
-  [BuildingType.TOWN_HOUSE]: 800,
-  [BuildingType.DORMITORY]: 1000,
-  [BuildingType.HOTEL]: 2500,
-  [BuildingType.RESORT]: 5000,
-  [BuildingType.SERVICED_APARTMENT]: 3000,
+  [BuildingType.SINGLE_DWELLING]: 160,
+  [BuildingType.TOWN_HOUSE_DUPLEX]: 240,
+  [BuildingType.APARTMENTS]: 1200,
+  [BuildingType.HOSTEL_GUEST_HOUSE]: 450,
+  [BuildingType.COMMERCIAL_FACILITY]: 300,
+  [BuildingType.PUBLIC_FACILITY]: 800,
+  [BuildingType.RESORT_COMPLEX]: 3500,
 };
 
 export const INFRA_BASE_COSTS = {
@@ -160,14 +159,13 @@ export const getFeePercentage = (cost: number, currency: string): number => {
 };
 
 export const FIXED_FEE_RANGES: Record<BuildingType, { min: number; max: number }> = {
-  [BuildingType.DETACHED_HOUSE]: { min: 25000, max: 35000 },
-  [BuildingType.WALK_UP_APARTMENT]: { min: 80000, max: 120000 },
-  [BuildingType.LOW_RISE_APARTMENT]: { min: 150000, max: 250000 },
-  [BuildingType.TOWN_HOUSE]: { min: 60000, max: 90000 },
-  [BuildingType.DORMITORY]: { min: 50000, max: 80000 },
-  [BuildingType.HOTEL]: { min: 300000, max: 600000 },
-  [BuildingType.RESORT]: { min: 500000, max: 1200000 },
-  [BuildingType.SERVICED_APARTMENT]: { min: 250000, max: 450000 },
+  [BuildingType.SINGLE_DWELLING]: { min: 12000, max: 25000 },
+  [BuildingType.TOWN_HOUSE_DUPLEX]: { min: 25000, max: 45000 },
+  [BuildingType.APARTMENTS]: { min: 150000, max: 350000 },
+  [BuildingType.HOSTEL_GUEST_HOUSE]: { min: 45000, max: 85000 },
+  [BuildingType.COMMERCIAL_FACILITY]: { min: 35000, max: 75000 },
+  [BuildingType.PUBLIC_FACILITY]: { min: 85000, max: 180000 },
+  [BuildingType.RESORT_COMPLEX]: { min: 450000, max: 1200000 },
 };
 
 export const STAGE_WEIGHTS = [

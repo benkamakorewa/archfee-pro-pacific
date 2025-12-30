@@ -49,14 +49,14 @@ const App: React.FC = () => {
   // Data State
   const [data, setData] = useState<ProjectData>({
     country: CountryKey.FIJI,
-    category: ResidentialCategory.LOW_DENSITY,
-    buildingType: BuildingType.DETACHED_HOUSE,
+    category: ResidentialCategory.STANDALONE,
+    buildingType: BuildingType.SINGLE_DWELLING,
     disclaimerAccepted: false,
     bedroomCount: 3,
     doubleStorey: false,
     unitCount: 1,
     roomKeys: 1,
-    floorArea: DEFAULT_AREAS[BuildingType.DETACHED_HOUSE],
+    floorArea: DEFAULT_AREAS[BuildingType.SINGLE_DWELLING],
     standard: ConstructionStandard.STANDARD,
     location: '',
     landType: LandType.FREEHOLD,

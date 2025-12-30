@@ -14,52 +14,51 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
   const [internalStep, setInternalStep] = useState(1);
 
   const categories = [
-    { 
-      id: ResidentialCategory.LOW_DENSITY, 
-      label: 'Low Density', 
-      desc: 'Detached houses & individual dwellings.', 
-      icon: 'home_pin' 
+    {
+      id: ResidentialCategory.STANDALONE,
+      label: 'Standalone Residential Dwellings',
+      desc: 'Class 1a buildings, including standalone dwellings, duplexes, and townhouses built using simplified manuals.',
+      icon: 'home_pin'
     },
-    { 
-      id: ResidentialCategory.MEDIUM_DENSITY, 
-      label: 'Medium Density', 
-      desc: 'Apartments, townhouses & dormitories.', 
-      icon: 'apartment' 
+    {
+      id: ResidentialCategory.MULTI_UNIT,
+      label: 'Multi-Unit and Group Accommodation',
+      desc: 'Class 2 & 3 buildings, including vertically stacked apartments, hostels, and guest houses.',
+      icon: 'apartment'
     },
-    { 
-      id: ResidentialCategory.HIGH_DENSITY, 
-      label: 'High Density / Hospitality', 
-      desc: 'Hotels, resorts & serviced apartments.', 
-      icon: 'corporate_fare' 
+    {
+      id: ResidentialCategory.COMMERCIAL_RESORT,
+      label: 'Commercial, Public & Resort',
+      desc: 'Class 6 & 9 buildings, including shops, restaurants, public assembly, and complex resort infrastructure.',
+      icon: 'corporate_fare'
     }
   ];
 
   const buildingTypesByCategory = {
-    [ResidentialCategory.LOW_DENSITY]: [
-      { id: BuildingType.DETACHED_HOUSE, label: 'Detached House', icon: 'house' }
+    [ResidentialCategory.STANDALONE]: [
+      { id: BuildingType.SINGLE_DWELLING, label: 'Single Dwelling', icon: 'house' },
+      { id: BuildingType.TOWN_HOUSE_DUPLEX, label: 'Townhouse or Duplex', icon: 'holiday_village' }
     ],
-    [ResidentialCategory.MEDIUM_DENSITY]: [
-      { id: BuildingType.WALK_UP_APARTMENT, label: 'Walk-up Apartment', icon: 'stairs' },
-      { id: BuildingType.LOW_RISE_APARTMENT, label: 'Low-rise Apartment', icon: 'domain' },
-      { id: BuildingType.TOWN_HOUSE, label: 'Townhouses / Duplexes', icon: 'holiday_village' },
-      { id: BuildingType.DORMITORY, label: 'Dormitory / Hostel', icon: 'groups' }
+    [ResidentialCategory.MULTI_UNIT]: [
+      { id: BuildingType.APARTMENTS, label: 'Stacked Apartments', icon: 'domain' },
+      { id: BuildingType.HOSTEL_GUEST_HOUSE, label: 'Hostel or Guest House', icon: 'groups' }
     ],
-    [ResidentialCategory.HIGH_DENSITY]: [
-      { id: BuildingType.HOTEL, label: 'Hotel', icon: 'hotel' },
-      { id: BuildingType.RESORT, label: 'Resort', icon: 'beach_access' },
-      { id: BuildingType.SERVICED_APARTMENT, label: 'Serviced Apartments', icon: 'concierge' }
+    [ResidentialCategory.COMMERCIAL_RESORT]: [
+      { id: BuildingType.COMMERCIAL_FACILITY, label: 'Shop, Restaurant or Bar', icon: 'store' },
+      { id: BuildingType.PUBLIC_FACILITY, label: 'Public or Health Facility', icon: 'account_balance' },
+      { id: BuildingType.RESORT_COMPLEX, label: 'Island Resort Complex', icon: 'beach_access' }
     ]
   };
 
   const handleCategorySelect = (cat: ResidentialCategory) => {
     const firstType = buildingTypesByCategory[cat][0].id;
-    onUpdate({ 
-      category: cat, 
+    onUpdate({
+      category: cat,
       buildingType: firstType,
       floorArea: DEFAULT_AREAS[firstType],
-      standard: cat === ResidentialCategory.HIGH_DENSITY ? ConstructionStandard.PREMIUM : ConstructionStandard.STANDARD,
-      unitCount: cat === ResidentialCategory.MEDIUM_DENSITY ? 4 : 1,
-      roomKeys: cat === ResidentialCategory.HIGH_DENSITY ? 20 : 1
+      standard: cat === ResidentialCategory.COMMERCIAL_RESORT ? ConstructionStandard.PREMIUM : ConstructionStandard.STANDARD,
+      unitCount: cat === ResidentialCategory.MULTI_UNIT ? 4 : 1,
+      roomKeys: cat === ResidentialCategory.COMMERCIAL_RESORT ? 20 : 1
     });
     setInternalStep(2);
   };
@@ -79,10 +78,10 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
   };
 
   const sliderConfig = useMemo(() => {
-    switch(data.category) {
-      case ResidentialCategory.LOW_DENSITY: return { min: 30, max: 800, step: 10 };
-      case ResidentialCategory.MEDIUM_DENSITY: return { min: 200, max: 5000, step: 50 };
-      case ResidentialCategory.HIGH_DENSITY: return { min: 500, max: 30000, step: 100 };
+    switch (data.category) {
+      case ResidentialCategory.STANDALONE: return { min: 30, max: 800, step: 10 };
+      case ResidentialCategory.MULTI_UNIT: return { min: 200, max: 5000, step: 50 };
+      case ResidentialCategory.COMMERCIAL_RESORT: return { min: 500, max: 30000, step: 100 };
       default: return { min: 30, max: 1000, step: 10 };
     }
   }, [data.category]);
@@ -96,10 +95,9 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
         {subSteps.map((s, idx) => (
           <React.Fragment key={s}>
             <div className="flex items-center gap-2">
-              <div className={`size-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 transition-all ${
-                internalStep > idx + 1 ? 'bg-green-500 border-green-500 text-white' : 
-                internalStep === idx + 1 ? 'border-[#13a4ec] text-[#13a4ec]' : 'border-gray-200 text-gray-300'
-              }`}>
+              <div className={`size-6 rounded-full flex items-center justify-center text-[10px] font-black border-2 transition-all ${internalStep > idx + 1 ? 'bg-green-500 border-green-500 text-white' :
+                  internalStep === idx + 1 ? 'border-[#13a4ec] text-[#13a4ec]' : 'border-gray-200 text-gray-300'
+                }`}>
                 {internalStep > idx + 1 ? <span className="material-symbols-outlined text-xs">check</span> : idx + 1}
               </div>
               <span className={`text-[10px] font-black uppercase tracking-widest ${internalStep === idx + 1 ? 'text-[#111618]' : 'text-gray-300'}`}>{s}</span>
@@ -120,14 +118,12 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
             <button
               key={cat.id}
               onClick={() => handleCategorySelect(cat.id)}
-              className={`p-10 rounded-[3rem] border-2 text-left transition-all flex flex-col gap-8 group relative overflow-hidden ${
-                data.category === cat.id ? 'border-[#13a4ec] bg-white shadow-2xl' : 'border-white bg-white hover:border-gray-100'
-              }`}
+              className={`p-10 rounded-[3rem] border-2 text-left transition-all flex flex-col gap-8 group relative overflow-hidden ${data.category === cat.id ? 'border-[#13a4ec] bg-white shadow-2xl' : 'border-white bg-white hover:border-gray-100'
+                }`}
             >
               {data.category === cat.id && <div className="absolute top-0 right-0 size-20 bg-[#13a4ec]/5 rounded-bl-[4rem] flex items-start justify-end p-4 text-[#13a4ec]"><span className="material-symbols-outlined font-black">check_circle</span></div>}
-              <div className={`size-16 rounded-3xl flex items-center justify-center transition-all ${
-                data.category === cat.id ? 'bg-[#13a4ec] text-white' : 'bg-gray-50 text-gray-400 group-hover:bg-[#13a4ec]/10 group-hover:text-[#13a4ec]'
-              }`}>
+              <div className={`size-16 rounded-3xl flex items-center justify-center transition-all ${data.category === cat.id ? 'bg-[#13a4ec] text-white' : 'bg-gray-50 text-gray-400 group-hover:bg-[#13a4ec]/10 group-hover:text-[#13a4ec]'
+                }`}>
                 <span className="material-symbols-outlined text-4xl">{cat.icon}</span>
               </div>
               <div className="space-y-3">
@@ -153,9 +149,8 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                   <button
                     key={type.id}
                     onClick={() => handleTypeSelect(type.id)}
-                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${
-                      data.buildingType === type.id ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-500'
-                    }`}
+                    className={`flex items-center gap-4 p-5 rounded-2xl border-2 transition-all ${data.buildingType === type.id ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-500'
+                      }`}
                   >
                     <div className={`size-10 rounded-xl flex items-center justify-center ${data.buildingType === type.id ? 'bg-[#13a4ec] text-white' : 'bg-white'}`}>
                       <span className="material-symbols-outlined text-xl">{type.icon}</span>
@@ -167,7 +162,7 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
               </div>
             </div>
 
-            {data.category === ResidentialCategory.LOW_DENSITY && (
+            {data.category === ResidentialCategory.STANDALONE && (
               <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm space-y-8">
                 <div className="space-y-4">
                   <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Bedrooms</p>
@@ -176,20 +171,18 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                       <button
                         key={n}
                         onClick={() => onUpdate({ bedroomCount: n })}
-                        className={`flex-1 h-14 rounded-2xl font-black transition-all border-2 ${
-                          data.bedroomCount === n ? 'border-[#13a4ec] bg-[#13a4ec] text-white' : 'border-gray-50 bg-gray-50 text-gray-400 hover:border-gray-200'
-                        }`}
+                        className={`flex-1 h-14 rounded-2xl font-black transition-all border-2 ${data.bedroomCount === n ? 'border-[#13a4ec] bg-[#13a4ec] text-white' : 'border-gray-50 bg-gray-50 text-gray-400 hover:border-gray-200'
+                          }`}
                       >
                         {n}
                       </button>
                     ))}
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={() => onUpdate({ doubleStorey: !data.doubleStorey })}
-                  className={`w-full h-16 rounded-2xl border-2 flex items-center justify-between px-6 transition-all ${
-                    data.doubleStorey ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-400'
-                  }`}
+                  className={`w-full h-16 rounded-2xl border-2 flex items-center justify-between px-6 transition-all ${data.doubleStorey ? 'border-[#13a4ec] bg-[#13a4ec]/5 text-[#13a4ec]' : 'border-gray-50 bg-gray-50 text-gray-400'
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     <span className="material-symbols-outlined">stairs</span>
@@ -200,30 +193,29 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
               </div>
             )}
 
-            {data.category === ResidentialCategory.HIGH_DENSITY && (
+            {data.category === ResidentialCategory.COMMERCIAL_RESORT && (
               <div className="bg-[#111618] p-8 rounded-[2.5rem] text-white space-y-6">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Shared Hospitality Facilities</p>
-                 <div className="grid grid-cols-1 gap-3">
-                    {[
-                      { key: 'restaurant', label: 'Restaurant & Kitchen', icon: 'restaurant' },
-                      { key: 'pool', label: 'Swimming Pool & Deck', icon: 'pool' },
-                      { key: 'conference', label: 'Conference Facilities', icon: 'groups' }
-                    ].map(f => (
-                      <button 
-                        key={f.key}
-                        onClick={() => toggleFacility(f.key as any)} 
-                        className={`w-full h-14 rounded-2xl flex items-center justify-between px-5 text-sm font-bold border-2 transition-all ${
-                          data.sharedFacilities?.[f.key as keyof typeof data.sharedFacilities] ? 'border-[#13a4ec] bg-[#13a4ec]/10 text-white' : 'border-white/10 text-white/40 opacity-60'
+                <p className="text-[10px] font-black uppercase tracking-widest text-white/40">Shared Support Facilities</p>
+                <div className="grid grid-cols-1 gap-3">
+                  {[
+                    { key: 'restaurant', label: 'Restaurant & Kitchen', icon: 'restaurant' },
+                    { key: 'pool', label: 'Swimming Pool & Deck', icon: 'pool' },
+                    { key: 'conference', label: 'Conference Facilities', icon: 'groups' }
+                  ].map(f => (
+                    <button
+                      key={f.key}
+                      onClick={() => toggleFacility(f.key as any)}
+                      className={`w-full h-14 rounded-2xl flex items-center justify-between px-5 text-sm font-bold border-2 transition-all ${data.sharedFacilities?.[f.key as keyof typeof data.sharedFacilities] ? 'border-[#13a4ec] bg-[#13a4ec]/10 text-white' : 'border-white/10 text-white/40 opacity-60'
                         }`}
-                      >
-                         <div className="flex items-center gap-3">
-                            <span className="material-symbols-outlined text-sm">{f.icon}</span>
-                            <span>{f.label}</span>
-                         </div>
-                         <span className="material-symbols-outlined text-xs">{data.sharedFacilities?.[f.key as keyof typeof data.sharedFacilities] ? 'check_box' : 'check_box_outline_blank'}</span>
-                      </button>
-                    ))}
-                 </div>
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="material-symbols-outlined text-sm">{f.icon}</span>
+                        <span>{f.label}</span>
+                      </div>
+                      <span className="material-symbols-outlined text-xs">{data.sharedFacilities?.[f.key as keyof typeof data.sharedFacilities] ? 'check_box' : 'check_box_outline_blank'}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -233,11 +225,11 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
             <div className="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-sm flex flex-col gap-10 h-full">
               <div className="space-y-10">
                 {/* Specific Density Inputs */}
-                {data.category === ResidentialCategory.MEDIUM_DENSITY && (
+                {data.category === ResidentialCategory.MULTI_UNIT && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-300">
                     <div className="space-y-3">
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">Number of Units</label>
-                      <input 
+                      <input
                         type="number" min="2"
                         value={data.unitCount}
                         onChange={(e) => onUpdate({ unitCount: Number(e.target.value) })}
@@ -251,11 +243,11 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                   </div>
                 )}
 
-                {data.category === ResidentialCategory.HIGH_DENSITY && (
+                {data.category === ResidentialCategory.COMMERCIAL_RESORT && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-300">
                     <div className="space-y-3">
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 pl-1">Total Rooms / Keys</label>
-                      <input 
+                      <input
                         type="number" min="10"
                         value={data.roomKeys}
                         onChange={(e) => onUpdate({ roomKeys: Number(e.target.value) })}
@@ -283,12 +275,12 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                       <span className="material-symbols-outlined text-[#13a4ec] text-4xl opacity-20">architecture</span>
                     </div>
                   </div>
-                  
+
                   <div className="px-2">
-                    <input 
-                      type="range" 
-                      min={sliderConfig.min} 
-                      max={sliderConfig.max} 
+                    <input
+                      type="range"
+                      min={sliderConfig.min}
+                      max={sliderConfig.max}
                       step={sliderConfig.step}
                       value={data.floorArea}
                       onChange={(e) => onUpdate({ floorArea: Number(e.target.value) })}
@@ -313,8 +305,8 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
                 </div>
 
                 <label className="flex items-start gap-4 cursor-pointer group">
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     checked={data.disclaimerAccepted}
                     onChange={(e) => onUpdate({ disclaimerAccepted: e.target.checked })}
                     className="mt-1 size-6 rounded border-gray-200 text-[#13a4ec] focus:ring-[#13a4ec] transition-all"
@@ -332,24 +324,24 @@ const HomeProfileScreen: React.FC<HomeProfileScreenProps> = ({ data, onUpdate, o
 
       {/* Footer Navigation */}
       <div className="flex justify-between items-center pt-10 border-t border-gray-200">
-         <button 
-           onClick={() => internalStep === 1 ? onBack() : setInternalStep(1)} 
-           className="h-14 px-8 text-gray-400 font-bold hover:text-[#111618] transition-all flex items-center gap-2"
-         >
-            <span className="material-symbols-outlined text-sm">arrow_back</span>
-            {internalStep === 1 ? 'Cancel' : 'Change Category'}
-         </button>
-         
-         {internalStep === 2 && (
-           <button 
+        <button
+          onClick={() => internalStep === 1 ? onBack() : setInternalStep(1)}
+          className="h-14 px-8 text-gray-400 font-bold hover:text-[#111618] transition-all flex items-center gap-2"
+        >
+          <span className="material-symbols-outlined text-sm">arrow_back</span>
+          {internalStep === 1 ? 'Cancel' : 'Change Category'}
+        </button>
+
+        {internalStep === 2 && (
+          <button
             onClick={onNext}
             disabled={!data.disclaimerAccepted}
             className="h-14 px-12 bg-[#13a4ec] text-white font-black rounded-2xl shadow-2xl shadow-[#13a4ec]/20 disabled:bg-gray-200 disabled:shadow-none transition-all flex items-center gap-2"
-           >
-              Continue: Market Factors
-              <span className="material-symbols-outlined">arrow_forward</span>
-           </button>
-         )}
+          >
+            Continue: Market Factors
+            <span className="material-symbols-outlined">arrow_forward</span>
+          </button>
+        )}
       </div>
     </div>
   );
