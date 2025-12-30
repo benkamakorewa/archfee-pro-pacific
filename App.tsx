@@ -45,6 +45,7 @@ const App: React.FC = () => {
   const [showReport, setShowReport] = useState(false);
   const [showAuth, setShowAuth] = useState(false);
   const [showMyEstimates, setShowMyEstimates] = useState(false);
+  const [adminRedirectPending, setAdminRedirectPending] = useState(false);
 
   // Data State
   const [data, setData] = useState<ProjectData>({
@@ -87,7 +88,13 @@ const App: React.FC = () => {
   };
 
   const renderStep = () => {
-    if (showAuth) return <AuthScreen onSuccess={() => setShowAuth(false)} />;
+    if (showAuth) return <AuthScreen onSuccess={() => {
+      setShowAuth(false);
+      if (adminRedirectPending) {
+        setIsAdminView(true);
+        setAdminRedirectPending(false);
+      }
+    }} />;
     if (showMyEstimates) return <MyEstimatesScreen onLoadEstimate={(estData) => {
       setData(estData);
       setShowMyEstimates(false);
@@ -169,6 +176,20 @@ const App: React.FC = () => {
       </div>
       <Footer
         onNewEstimate={() => { setStep(0); setShowReport(false); setIsAdminView(false); setShowAuth(false); setShowMyEstimates(false); }}
+        onAdmin={() => {
+          if (currentUser && currentUser.role === 'admin') {
+            setIsAdminView(true);
+            setShowReport(false);
+            setShowAuth(false);
+            setShowMyEstimates(false);
+          } else {
+            setAdminRedirectPending(true);
+            setShowAuth(true);
+            setIsAdminView(false);
+            setShowReport(false);
+            setShowMyEstimates(false);
+          }
+        }}
         selectedCountry={data.country}
       />
     </div>

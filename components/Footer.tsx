@@ -4,10 +4,11 @@ import { CountryKey } from '../types';
 
 interface FooterProps {
     onNewEstimate?: () => void;
+    onAdmin?: () => void;
     selectedCountry?: CountryKey;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNewEstimate, selectedCountry }) => {
+const Footer: React.FC<FooterProps> = ({ onNewEstimate, onAdmin, selectedCountry }) => {
     const currentYear = new Date().getFullYear();
 
     return (
@@ -44,15 +45,18 @@ const Footer: React.FC<FooterProps> = ({ onNewEstimate, selectedCountry }) => {
                                 </button>
                             </li>
                             <li>
-                                <a href="#" className="text-sm font-bold text-gray-600 hover:text-[#13a4ec] transition-colors flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">help</span>
-                                    How it Works
-                                </a>
+                                <button
+                                    onClick={onAdmin}
+                                    className="text-sm font-bold text-gray-600 hover:text-[#13a4ec] transition-colors flex items-center gap-2"
+                                >
+                                    <span className="material-symbols-outlined text-sm">admin_panel_settings</span>
+                                    Admin Area
+                                </button>
                             </li>
                             <li>
                                 <a href="#" className="text-sm font-bold text-gray-600 hover:text-[#13a4ec] transition-colors flex items-center gap-2">
-                                    <span className="material-symbols-outlined text-sm">security</span>
-                                    Security & Privacy
+                                    <span className="material-symbols-outlined text-sm">help</span>
+                                    How it Works
                                 </a>
                             </li>
                         </ul>
