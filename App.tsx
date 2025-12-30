@@ -22,9 +22,7 @@ import { useRegionalData } from './hooks/useRegionalData';
 
 // Optimized Screen Components
 import WelcomeScreen from './screens/WelcomeScreen';
-import HomeProfileScreen from './screens/HomeProfileScreen';
-import MarketContextScreen from './screens/MarketContextScreen';
-import ResilienceScreen from './screens/ResilienceScreen';
+import ProjectConfigurationScreen from './screens/ProjectConfigurationScreen';
 import FinancialDashboard from './screens/FinancialDashboard';
 import SecureReportScreen from './screens/SecureReportScreen';
 import PremiumReportPreview from './screens/PremiumReportPreview';
@@ -98,10 +96,7 @@ const App: React.FC = () => {
     if (showMyEstimates) return <MyEstimatesScreen onLoadEstimate={(estData) => {
       setData(estData);
       setShowMyEstimates(false);
-      // If the estimate is already paid, we should probably allow them to view the report directly?
-      // For now, let's load it back into state. If they go to step 5, they will see "Paid" state if we implement it.
-      // Actually, we need to make sure `isPaid` is preserved in `data`.
-      setStep(5); // Go to Secure Report screen to see status or regenerate
+      setStep(3); // Go to Secure Report screen to see status or regenerate (Step 3 now)
     }} />;
 
     if (isAdminView) {
@@ -122,11 +117,9 @@ const App: React.FC = () => {
 
     switch (step) {
       case 0: return <WelcomeScreen regionData={activeRegionalData[data.country]} selectedCountry={data.country} isSyncing={isSyncing} onCountrySelect={(c) => updateData({ country: c })} onStart={() => setStep(1)} />;
-      case 1: return <HomeProfileScreen data={data} onUpdate={updateData} onNext={() => setStep(2)} onBack={() => setStep(0)} />;
-      case 2: return <MarketContextScreen data={data} onUpdate={updateData} onNext={() => setStep(3)} onBack={() => setStep(1)} />;
-      case 3: return <ResilienceScreen data={data} onUpdate={updateData} onNext={() => setStep(4)} onBack={() => setStep(2)} />;
-      case 4: return <FinancialDashboard results={results} projectData={data} onUpdate={updateData} onNext={() => setStep(5)} onBack={() => setStep(3)} />;
-      case 5: return <SecureReportScreen results={results} projectData={data} onUpdate={updateData} onBack={() => setStep(4)} onReportGenerated={() => setShowReport(true)} />;
+      case 1: return <ProjectConfigurationScreen data={data} onUpdate={updateData} onNext={() => setStep(2)} onBack={() => setStep(0)} />;
+      case 2: return <FinancialDashboard results={results} projectData={data} onUpdate={updateData} onNext={() => setStep(3)} onBack={() => setStep(1)} />;
+      case 3: return <SecureReportScreen results={results} projectData={data} onUpdate={updateData} onBack={() => setStep(2)} onReportGenerated={() => setShowReport(true)} />;
       default: return <WelcomeScreen onStart={() => setStep(1)} />;
     }
   };
@@ -137,14 +130,6 @@ const App: React.FC = () => {
         isSyncing={isSyncing}
         onDashboard={() => {
           if (currentUser) {
-            // If admin, show admin. If user, show estimates? 
-            // Actually currently "Dashboard" button is specific for Admin in Header.
-            // But we added "My Estimates" button in Header which calls onDashboard? 
-            // Wait, let's check Header.tsx again.
-            // Header has: 
-            // Admin: <button onClick={onDashboard}>Admin Area</button>
-            // User: <button onClick={onDashboard}>My Estimates</button>
-            // So onDashboard does double duty.
             if (currentUser.role === 'admin') {
               setIsAdminView(true);
             } else {
@@ -164,13 +149,13 @@ const App: React.FC = () => {
           setIsAdminView(false);
           setShowReport(false);
           setShowMyEstimates(false);
-          setShowAuth(false); // Close auth screen if open, though they are logged out.
+          setShowAuth(false);
         }}
         currentUser={currentUser}
       />
       <div className="flex-1 flex flex-col">
         {step > 0 && !showReport && !isAdminView && !showAuth && !showMyEstimates && (
-          <div className="w-full max-w-4xl mx-auto px-6 py-6"><ProgressBar current={step} total={5} /></div>
+          <div className="w-full max-w-4xl mx-auto px-6 py-6"><ProgressBar current={step} total={3} /></div>
         )}
         <div className="flex-1">{renderStep()}</div>
       </div>
